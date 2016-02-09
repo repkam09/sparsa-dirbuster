@@ -53,7 +53,9 @@ function checkNext() {
         cleanup();
     } else {
         // Be slightly nice and wait a quarter of a second between requests
-        sleep.usleep(250000);
+        // ... Or maybe 1 second I guess.
+        sleep.sleep(1);
+        //sleep.usleep(250000);
         
         // Start the next request
         getWebpage(wordlist[counter]);
