@@ -1,0 +1,16 @@
+{
+  "name": "sparsa-nodejs-dirbuster",
+  "version": "0.1.0",
+  "description": "Dirbuster program for week two challenge",
+  "main": "dirbuster.js",
+  "dependencies": {
+    "sleep": "latest",
+    "request": "latest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/repkam09/sparsa-dirbuster.git"
+  },
+  "author": "Mark R. Repka",
+  "license": "MIT"
+}
