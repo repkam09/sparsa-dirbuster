@@ -23,7 +23,7 @@ var counter = 0;
 var max = 0;
 var endOfLine = require('os').EOL;
 
-var obj = JSON.parse(fs.readFileSync('file', 'utf8'));
+var obj = JSON.parse(fs.readFileSync('settings.json', 'utf8'));
 if (obj.counter) {
     counter = obj.counter;
     console.log("Starting processing at number " + obj.counter);
@@ -66,7 +66,7 @@ function checkNext() {
         sleep.usleep(125000);
         
         var current = {counter: counter};
-        fs.appendFileSync("settings.json", JSON.stringify(current));
+        fs.writeFileSync("settings.json", JSON.stringify(current));
         
         // Start the next request
         getWebpage(wordlist[counter]);
