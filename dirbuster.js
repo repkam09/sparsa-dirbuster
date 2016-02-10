@@ -26,7 +26,7 @@ var endOfLine = require('os').EOL;
 var obj = JSON.parse(fs.readFileSync('settings.json', 'utf8'));
 if (obj.counter) {
     counter = obj.counter;
-    console.log("Starting processing at number " + obj.counter);
+    logger("Starting processing at number " + obj.counter);
 }
 
 // Create a reader for the searchspace text file
@@ -45,7 +45,7 @@ rl.on('line', function (line) {
 
 // After the wordlist is read in... do stuff!
 rl.on('close', function () {
-    console.log("Checking " + wordlist.length + " words...");
+    logger("Checking " + wordlist.length + " words...");
     max = wordlist.length;
     
     // Start the first word grab to trigger the search
@@ -86,11 +86,11 @@ function getWebpage(append) {
         }
         
         // Print out the result of the request and trigger the next check
-        console.log(response.statusCode + " : " + url + ", count: " + counter);
+        logger(response.statusCode + " : " + url + ", count: " + counter);
         checkNext();
     }).on('error', function (error) {
         // Something bad happens! Time out, blocked, etc.
-        console.log("Error: " + error);
+        logger("Error: " + error);
     });
 }
 
@@ -102,6 +102,10 @@ function foundUrl(response, path, url) {
     fs.appendFileSync("dirbuster.log", logmsg);
 }
 
+function logger(msg) {
+	console.log(msg);
+	fs.appendFileSync("dirbuster.txt", msg + endOfLine);
+}
 
 // When the entire search is done this function is called.
 // It simply prints out how many things we found.
