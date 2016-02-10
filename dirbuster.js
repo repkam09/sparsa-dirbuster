@@ -24,7 +24,7 @@ var rl = readline.createInterface({
 // Set up some local storage to hold useful things
 var wordlist = [];
 var exists = [];
-var counter = 0;
+var counter = 8916;
 var max = 0;
 var endOfLine = require('os').EOL;
 
@@ -54,8 +54,8 @@ function checkNext() {
     } else {
         // Be slightly nice and wait a quarter of a second between requests
         // ... Or maybe 1 second I guess.
-        sleep.sleep(1);
-        //sleep.usleep(250000);
+        //sleep.sleep(1);
+        sleep.usleep(125000);
         
         // Start the next request
         getWebpage(wordlist[counter]);
@@ -67,7 +67,7 @@ function checkNext() {
 function getWebpage(append) {
     var url = "http://ctf.arch-cloud.com/" + append;
     
-    request.get(url).on('response', function (response) {
+    request.head(url).on('response', function (response) {
         // In this case we assume that !404 is 'something' interesting
         if (response.statusCode != 404) {            
             // Log to our results that we found something interesting
@@ -80,9 +80,6 @@ function getWebpage(append) {
     }).on('error', function (error) {
         // Something bad happens! Time out, blocked, etc.
         console.log("Error: " + error);
-        
-        // Power through anyway....?
-        checkNext();
     });
 }
 
@@ -91,7 +88,7 @@ function getWebpage(append) {
 function foundUrl(response, path, url) {
     exists.push(path);
     var logmsg = response.statusCode + " | " + path + " | " + url + endOfLine;
-    fs.appendFileSync("dirbuster.log", logmsg)
+    fs.appendFileSync("dirbuster.log", logmsg);
 }
 
 
