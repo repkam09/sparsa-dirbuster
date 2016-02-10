@@ -15,18 +15,26 @@ var fs = require('fs');
 var request = require('request');
 var sleep = require('sleep');
 
+
+// Set up some local storage to hold useful things
+var wordlist = [];
+var exists = [];
+var counter = 0;
+var max = 0;
+var endOfLine = require('os').EOL;
+
+var obj = JSON.parse(fs.readFileSync('file', 'utf8'));
+if (obj.counter) {
+    counter = obj.counter;
+    console.log("Starting processing at number " + obj.counter);
+}
+
 // Create a reader for the searchspace text file
 // This file contains the dict of paths to check
 var rl = readline.createInterface({
     input: fs.createReadStream('searchspace.txt')
 });
 
-// Set up some local storage to hold useful things
-var wordlist = [];
-var exists = [];
-var counter = 8916;
-var max = 0;
-var endOfLine = require('os').EOL;
 
 // When we get a new line of the input file
 // push it onto the wordlist array.
@@ -56,6 +64,9 @@ function checkNext() {
         // ... Or maybe 1 second I guess.
         //sleep.sleep(1);
         sleep.usleep(125000);
+        
+        var current = {counter: counter};
+        fs.appendFileSync("settings.json", JSON.stringify(current));
         
         // Start the next request
         getWebpage(wordlist[counter]);
